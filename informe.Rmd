@@ -50,6 +50,8 @@ Ajustando un modelo de regresión para las variables `r names(data)[1]` y `r nam
 la función `lm()` obtenemos el siguiente resultado:
 
 ```{r,echo=TRUE,eval=TRUE}
+#ECHO MUESTRA LAS LINEAS DE CODIGO 
+#EVAL CORRE LAS LINEAS DE CODIGO
 reg <- lm(Utilidad~Ventas, data)
 summary(reg)
 ```
@@ -59,14 +61,16 @@ $$\hat{`r substring(names(data)[1],1,2)`} = `r reg$coefficients[1]` + `r reg$coe
 
 ### Interpretación
 __Interpretación modelo:__ _Si `r names(data)[2]` se incrementa en una unidad, entonces `r names(data)[1]`
-`r tex <-"aumenta"; if(reg$coefficients[2]<0) (tex<-"disminuye");tex` en promedio `r reg$coefficients[2]`
+`r tex <-"aumenta"; if(reg$coefficients[2]<0) (tex<-"disminuye");tex` en promedio `r abs(reg$coefficients[2])`
 unidades._
 
 __Interpretación $R^2$:__ _El modelo de regresión lineal obtenido explica el `r paste(100*summary(reg)$r.squared,"%")` de la variabilidad total._
 
-### Pruebas de hipótesis
+### Pruebas de hipótesis para beta 2 utilizado la prueba T 
 
-__Ejercicio lector__
+Como $T=`r summary(reg)[[4]][2,3]`$ es `r tex<-"menor"; if(summary(reg)[[4]][2,3]>qt(0.975,(nrow(data)-2))) tex<-"mayor"; tex` que $T_{1,`r (nrow(data)-2)`}(\frac{\alpha}{2})= `r qt(0.975,(nrow(data)-2))`$
+`r tex<-"no rechazo"; if(summary(reg)[[4]][2,3]>qt(0.975,(nrow(data)-2))) tex<-"rechazo"; tex`
+$H_0: \beta_2=0$.
 
 
 
